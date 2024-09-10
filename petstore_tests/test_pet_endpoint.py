@@ -1,3 +1,5 @@
+import os
+
 import pytest
 import logging
 
@@ -12,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 client = APIClient()
 
+# URL to the image stored on the internet
+IMAGE_URL = "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?cs=srgb&dl=pexels-lum3n-44775-406014.jpg&fm=jpg"
 
 @pytest.fixture
 def sample_pet():
@@ -22,20 +26,33 @@ def sample_pet():
     )
 
 
-def test_upload_pet_image():
+def test_upload_pet_image(sample_pet):
     logger.info("Starting test_upload_pet_image")
-    # Use a sample image file path or a URL to upload
-    image_file_path = r"CBA-TEST\petstore_tests\images\image.png"
+
+    # Download the image from the internet
+    response = requests.get(IMAGE_URL)
+    if response.status_code == 200:
+        with open("sample_image.jpg", 'wb') as file:
+            file.write(response.content)
+    else:
+        logger.error(f"Failed to download image. Status code: {response.status_code}")
+        pytest.fail("Failed to download image from the internet.")
+
     pet_id = 123  # This would be the ID of the pet you want to upload the image for
 
-    with open(image_file_path, 'rb') as image_file:
-        response = client.post(f"/pet/{pet_id}/uploadImage", files={'file': image_file})
+    with open("sample_image.jpg", 'rb') as image_file:
+        upload_response = client.post(f"/pet/{pet_id}/uploadImage", files={'file': image_file})
 
-    logger.info(f"Received response: {response}")
-    assert response.get('code') == 200
-    assert 'message' in response
+    logger.info(f"Received response: {upload_response}")
+
+    # Validate the response
+    assert upload_response.get('code') == 200
+    assert 'message' in upload_response
+
+    # Clean up
+    os.remove("sample_image.jpg")
+
     logger.info("test_upload_pet_image passed")
-
 
 def test_get_pet_by_id(sample_pet):
     logger.info("Starting test_get_pet_by_id")
