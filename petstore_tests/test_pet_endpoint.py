@@ -25,7 +25,7 @@ def sample_pet():
 def test_upload_pet_image():
     logger.info("Starting test_upload_pet_image")
     # Use a sample image file path or a URL to upload
-    image_file_path = r"C:\Work\CBA-TEST\petstore_tests\images\sample_image.jpg"
+    image_file_path = r"CBA-TEST\petstore_tests\images\sample_image.jpg"
     pet_id = 123  # This would be the ID of the pet you want to upload the image for
 
     with open(image_file_path, 'rb') as image_file:
