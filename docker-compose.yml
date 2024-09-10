@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  pytest:
+    build: .
+    volumes:
+      - .:/app
+    command: pytest --html=reports/pytest_report.html --self-contained-html
+    # Uncomment below to mount the reports directory for easy access
+    # volumes:
+    #   - ./reports:/app/reports
