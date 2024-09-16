@@ -15,8 +15,7 @@ logger = logging.getLogger(__name__)
 client = APIClient()
 
 # URL to the image stored on the internet
-IMAGE_URL = "https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg?cs=srgb&dl=pexels-lum3n-44775-406014.jpg&fm=jpg"
-
+IMAGE_URL = "https://media.istockphoto.com/id/874937848/photo/many-different-breeds-of-dogs-on-the-grass.jpg?s=1024x1024&w=is&k=20&c=13twYZwN8UcmJK5dqDPTnjxfWPQ2ed5854OZVceVpBk="
 @pytest.fixture
 def sample_pet():
     return Pet(
